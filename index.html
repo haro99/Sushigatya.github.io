@@ -13,13 +13,21 @@
     <body>
         <h1 class="Title">寿司ガチャ(はま寿司用)</h1>
         <p>握り</p>
-        <input type="button" value="ガチャスタート" onclick="Gatya()">
-        <div id="Show">
+        <input type="button" value="ガチャスタート" onclick="hamaGatya()">
+        <div id="hamaShow">
+
+        </div>
+        <h1 class="Title">寿司ガチャ(スシロー用)</h1>
+        <input type="button" value="ガチャスタート" onclick="susiroGatya()">
+        <div id="susiroShow">
 
         </div>
     </body>
     <script>
-        var neta = new Array();
+        hamaprice = 110;
+        var hamaneta = new Array();
+        var susiroprice = [120, 130, 150];
+        var susironeta = new Array();
 
 
         function getCSV(){
@@ -30,19 +38,42 @@
             // レスポンスが返ってきたらconvertCSVtoArray()を呼ぶ	
             req.onload = function(){
                 //console.log(req.responseText);
-                neta = req.responseText.split('\n');
+                hamaneta = req.responseText.split('\n');
                 //console.log(req.responseText); // 渡されるのは読み込んだCSVデータ
                 console.log(neta.length);
             }
+
+            var req2 = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
+            req2.open("get", "susironigiridata.csv", true); // アクセスするファイルを指定
+            req2.send(null); // HTTPリクエストの発行
+
+            req2.onload = function(){
+                //console.log(req.responseText);
+                susironeta = req.responseText.split('\n');
+                //console.log(req.responseText); // 渡されるのは読み込んだCSVデータ
+                console.log(susironeta.length);
+            }
         }
-        function Gatya(){
-            var div = document.getElementById('Show');
+        function hamaGatya(){
+            var div = document.getElementById('hamaShow');
             div.innerHTML = "";
             for(i = 0; i< 10;i++)
             {
-                div.innerHTML += '<p class=\'nigiri\'>'+ neta[getRandomInt(neta.length - 1)] +'</p>';
+                div.innerHTML += '<p class=\'nigiri\'>'+ hamaneta[getRandomInt(hamaneta.length - 1)] +'</p>';
             }
-            div.innerHTML+= "<p>合計"+ (110 * 10) +"円(税込)</p>";
+            div.innerHTML+= "<p>合計"+ (hamaprice * 10) +"円(税込)</p>";
+        }
+
+        function susiroGatya(){
+            var div = document.getElementById('susiroShow');
+            div.innerHTML = "";
+            for(i = 0; i< 10;i++)
+            {
+                div.innerHTML += '<p class=\'nigiri\'>'+ hamaneta[getRandomInt(susironeta.length - 1)] +'</p>';
+            }
+
+            for(i = 0; i < susiroprice.length;i++)
+                div.innerHTML+= "<p>"+ susiroprice[i] +"価格 合計"+ (susiroprice[i] * 10) +"円(税込)</p>";
         }
 
         function getRandomInt(max) {
