@@ -40,7 +40,7 @@
                 //console.log(req.responseText);
                 hamaneta = req.responseText.split('\n');
                 //console.log(req.responseText); // 渡されるのは読み込んだCSVデータ
-                console.log(neta.length);
+                console.log(hamaneta.length);
             }
 
             var req2 = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
@@ -49,9 +49,9 @@
 
             req2.onload = function(){
                 //console.log(req.responseText);
-                susironeta = req.responseText.split('\n');
+                susironeta = req2.responseText.split('\n');
                 //console.log(req.responseText); // 渡されるのは読み込んだCSVデータ
-                console.log(susironeta.length);
+                console.log(susironeta[0]);
             }
         }
         function hamaGatya(){
